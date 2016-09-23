@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import sqlite3 as sql
 import datetime
 from timeit import default_timer
+import pdb
 
 tree = ET.parse('C:/Users/George/Desktop/Logs/ad.xml')
 root = tree.getroot()
@@ -10,11 +11,12 @@ cur = conn.cursor()
 start_time = default_timer()
 
 def concat(str_value):
+	str_value = str(str_value)
 	if str_value.startswith('{}'):
 		return str_value[2:]
 	elif str_value.startswith("{'SystemTime': "):
-		print (str_value[16:46])
-		return str_value[16:46]
+		print (str_value[16:39])
+		return str_value[16:39]
 	else:
 		return str_value
 
@@ -27,13 +29,14 @@ for child in root[:10]: #tag="{http://schemas.microsoft.com/win/2004/08/events/e
 		data_str += concat(str(c.attrib)) + concat(str(c.text))
 	#Get the "system" part of the log file.
 	for c in child[0]:
-		print (c.tag)
 		if c.text is None and c.attrib is not None: 
 			if c.tag == '{http://schemas.microsoft.com/win/2004/08/events/event}TimeCreated':
-				dt = datetime.strptime(concat(c.attrib), '%Y-%m-%dT%H:%M:%S.%f')
+				#pdb.set_trace()
+				dt = datetime.datetime.strptime(concat(c.attrib), '%Y-%m-%dT%H:%M:%S.%f')
 				dt_date = dt.date()
-				dt_time = dt.time()
-				values.append(dt_date, dt_time)	
+				dt_time = dt.time().strftime('%H:%M:%S.%f')
+				values.append(dt_date)
+				values.append(dt_time)	
 			else:
 				values.append(concat(str(c.attrib)))
 		elif c.attrib is None and c.text is not None:
