@@ -6,7 +6,7 @@ import pdb
 
 tree = ET.parse('C:/Users/George/Desktop/Logs/ad.xml')
 root = tree.getroot()
-conn = sql.connect('test.db')
+conn = sql.connect('C:/Users/George/Desktop/software tools/test.db')
 cur = conn.cursor()
 start_time = default_timer()
 
@@ -15,13 +15,13 @@ def concat(str_value):
 	if str_value.startswith('{}'):
 		return str_value[2:]
 	elif str_value.startswith("{'SystemTime': "):
-		print (str_value[16:39])
-		return str_value[16:39]
+		print (str_value[16:42])
+		return str_value[16:42]
 	else:
 		return str_value
 
 #{'SystemTime': '2016-09-16T08:34:45.700979700Z'}
-for child in root[:10]: #tag="{http://schemas.microsoft.com/win/2004/08/events/event}Provider"
+for child in root: #tag="{http://schemas.microsoft.com/win/2004/08/events/event}Provider"
 	values = []
 	data_str = ''
 	#Get the "data" part of the log file.
@@ -45,8 +45,6 @@ for child in root[:10]: #tag="{http://schemas.microsoft.com/win/2004/08/events/e
 			values.append(concat(str(c.attrib) + concat(c.text)))
 		else:
 			values.append(concat(c.text))
-	for v in values:
-		print(v)
 	values.append(concat(data_str))
 	cur.execute('INSERT INTO [Security-parsed-log] VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', values)
 	conn.commit()
