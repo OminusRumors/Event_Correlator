@@ -1,26 +1,31 @@
 import xml.etree.ElementTree as ET
-import sqlite3 as sql
 import datetime
+import collections
 from timeit import default_timer
-import pdb
+
+def concat(value):
+	return value[10:-2].lower()
 
 tree = ET.parse('C:/Users/George/Desktop/Logs/ad.xml')
 root = tree.getroot()
-conn = sql.connect('C:/Users/George/Desktop/software tools/test.db')
-cur = conn.cursor()
-start_time = default_timer()
+file = open("detail_attrib.txt", "w")
 
-def concat(str_value):
-	str_value = str(str_value)
-	if str_value.startswith('{}'):
-		return str_value[2:]
-	elif str_value.startswith("{'SystemTime': "):
-		print (str_value[16:42])
-		return str_value[16:42]
-	else:
-		return str_value
+detail_values={}
+detail_list=[]
+cnt = 0
 
-#{'SystemTime': '2016-09-16T08:34:45.700979700Z'}
+for child in root:
+	for c in child[1]:
+		if concat(str(c.attrib)) not in detail_list:
+			detail_list.append(concat(str(c.attrib)))
+			file.write(concat(str(c.attrib)))
+			cnt+=1
+file.close()
+
+for value in sorted(detail_list):
+	print (value)
+print(cnt)
+'''
 for child in root: #tag="{http://schemas.microsoft.com/win/2004/08/events/event}Provider"
 	values = []
 	data_str = ''
@@ -50,4 +55,4 @@ for child in root: #tag="{http://schemas.microsoft.com/win/2004/08/events/event}
 	conn.commit()
 		#print (child[1][0].tag, child[1][0].attrib, child[1][0].text)
 		#cur.execute('INSERT INTO Security-parsed-log VALUES ')
-print ("Duration: " + str(default_timer()-start_time))
+print ("Duration: " + str(default_timer()-start_time))'''
