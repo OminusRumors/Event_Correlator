@@ -8,21 +8,32 @@ if usr == str(1):
 elif usr == str(2):
 	file=open("C:/Users/George/Desktop/Logs/forti_event_9_27.csv", "r")
 else:
-	usr=raw_input("Type 1 for test, 2 for log file: ")
+	usr=input("Type 1 for test, 2 for log file: ")
 
 attr_list=[]
 
 for line in file:
 	line_list=[]
+	del_list=[]
 	line_list=re.split('[^\w+=?\w*|\-|\.|\:|\/]', line)
 	line_list=list(filter(None, line_list))
 	for i in line_list:
-		if i.endswith('=') and line_list.index(i) <= len(line_list)-2:
+		if i.endswith('=') and line_list.index(i) < len(line_list)-1:
 			line_list[line_list.index(i)] += line_list[line_list.index(i)+1]
 			try:
-				del line_list[line_list.index(i)+1]
+				del_list.append(line_list.index(i)+1)
 			except ValueError:
+				del_list.append(line_list.index(i))
+				print ("The error...")
 				pass
+			''''
+			try:
+				line_list.pop(line_list.index(i)+1)
+			except ValueError:
+				print ("The error...")
+				pass'''
+	for ind in del_list:
+		line_list.pop(ind)
 	print (line_list)
 '''
 	for i in range(len(line_list)-1):
