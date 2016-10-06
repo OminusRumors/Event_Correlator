@@ -2,14 +2,14 @@ import re
 import pdb
 import sqlite3 as sql
 
-usr=input("Type 1 for test, 2 for events log, 3 for traffic log: ")
+usr=input("Type 1 for test, 2 for events log: ")
 
 if usr == str(1):
 	file=open("C:/Users/George/Desktop/Logs/forti_mini.csv", "r")
 elif usr == str(2):
 	file=open("C:/Users/George/Desktop/Logs/forti_event_9_27.csv", "r")
-elif usr == 3:
-	file=open("C:/Users/George/Desktop/Logs/forti_traffic_12_15.csv", "r")
+#elif usr == str(3):
+#	file=open("C:/Users/George/Desktop/Logs/forti_traffic_12_15.csv", "r")
 
 attr_list=[]
 attr_str=""
@@ -17,7 +17,7 @@ counter = 0
 saver = open("C:/Users/George/Desktop/Logs/list_bef.txt", "w")
 saver2 = open("C:/Users/George/Desktop/Logs/attr.txt", "w")
 saver3 = open("C:/Users/George/Desktop/Logs/list_aft.txt", "w")
-file=file.readlines()[:40000]
+file=file.readlines()
 
 for line in file:
 	line_list=[]
@@ -52,9 +52,10 @@ for line in file:
 		if attr not in attr_list and not attr.startswith(' '):
 			attr_list.append(attr)
 			saver2.write(attr + "\n")
-	saver3.write(str(counter) + "-" * 30)
+	#saver3.write(str(counter) + "-" * 30)
 	counter += 1
 
+'''
 for i in attr_list[:-1]:
 	attr_str += '{} VARCHAR,'.format(i)
 attr_str += '{} VARCHAR'.format(line_list[-1])
@@ -65,7 +66,7 @@ conn=sql.connect('C:/Users/George/Desktop/software tools/test.db')
 cur=conn.cursor()
 cur.execute(query)
 conn.commit()
-conn.close()
+conn.close()'''
 saver.close()
 saver2.close()
 saver3.close()
