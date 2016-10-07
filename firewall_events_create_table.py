@@ -8,14 +8,14 @@ if usr == str(1):
 	file=open("C:/Users/George/Desktop/Logs/forti_mini.csv", "r")
 elif usr == str(2):
 	file=open("C:/Users/George/Desktop/Logs/forti_event_9_27.csv", "r")
-#elif usr == str(3):
-#	file=open("C:/Users/George/Desktop/Logs/forti_traffic_12_15.csv", "r")
+elif usr == str(3):
+	file=open("C:/Users/George/Desktop/Logs/forti_traffic_12_15.csv", "r")
 
 attr_list=[]
 attr_str=""
 counter = 0
 saver = open("C:/Users/George/Desktop/Logs/list_bef.txt", "w")
-saver2 = open("C:/Users/George/Desktop/Logs/attr.txt", "w")
+saver2 = open("C:/Users/George/Desktop/Logs/attr1.txt", "w")
 saver3 = open("C:/Users/George/Desktop/Logs/list_aft.txt", "w")
 file=file.readlines()
 
@@ -54,7 +54,6 @@ for line in file:
 			saver2.write(attr + "\n")
 	#saver3.write(str(counter) + "-" * 30)
 	counter += 1
-
 '''
 for i in attr_list[:-1]:
 	attr_str += '{} VARCHAR,'.format(i)

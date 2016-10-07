@@ -28,6 +28,10 @@ for line in file:
 			inst_list.append(i.split('=')[1])
 	attr_str = attr_str[:-1]
 	query = "INSERT OR REPLACE INTO firewall_event_log (%s) VALUES (%s)" % (attr_str, ", ".join("?" * len(inst_list)))
-	cur.execute(query, inst_list)
-	con.commit()
+	try:
+		cur.execute(query, inst_list)
+		con.commit()
+	except:
+		con.rollback()
+		continue
 con.close()
