@@ -6,7 +6,7 @@ with open('C:/Users/George/Desktop/Logs/forti_traffic_12_15.csv', newline='') as
 	con = sql.connect('C:/Users/George/Desktop/software tools/test.db')
 	cur = con.cursor()
 	reader=csv.reader(file)
-	for i in range(10000):
+	for i in range(2000000):
 		row = next(reader)
 		attr_str = ""
 		inst_list=[]
