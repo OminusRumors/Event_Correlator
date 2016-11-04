@@ -16,7 +16,7 @@ def concat(str_value):
 	else:
 		return str_value
 
-tree = et.parse('C:/Users/George/Desktop/Logs/mssql.xml')
+tree = et.parse('C:/Users/George/Desktop/Logs/sql4672.xml')
 root = tree.getroot()
 conn = sql.connect('C:/Users/George/Desktop/software tools/test.db')
 cur = conn.cursor()
@@ -52,7 +52,7 @@ for event in root:
 	print (values[8])
 	cols_str = ",".join(str(i) for i in cols)
 	row_str = ",".join("?" * len(values))
-	query = 'INSERT OR IGNORE INTO mssql_table (%s) VALUES (%s);' % (cols_str, row_str)
+	query = 'INSERT OR REPLACE INTO mssql_table (%s) VALUES (%s);' % (cols_str, row_str)
 	cur.execute(query, values)
 	conn.commit()
 

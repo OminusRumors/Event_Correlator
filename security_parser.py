@@ -4,7 +4,7 @@ import datetime
 from timeit import default_timer
 import pdb
 
-tree = ET.parse('C:/Users/George/Desktop/Logs/ad.xml')
+tree = ET.parse('C:/Users/George/Desktop/Logs/ad4672.xml')
 root = tree.getroot()
 conn = sql.connect('C:/Users/George/Desktop/software tools/test.db')
 cur = conn.cursor()
