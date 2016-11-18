@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_cVRxEKv3EeaA-LY5-9BmyA" name="NewModel">
+  <packageImport xmi:id="_-owuwKv_EeaA-LY5-9BmyA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packageImport xmi:id="_35RGAKwBEeaA-LY5-9BmyA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_2kGOYKv3EeaA-LY5-9BmyA" name="IN_DB_connector">
+    <ownedOperation xmi:id="_LtZjYKv4EeaA-LY5-9BmyA" name="get_security">
+      <ownedParameter xmi:id="_sxpncKv4EeaA-LY5-9BmyA" name="filtered">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_j3V-4Kv4EeaA-LY5-9BmyA" name="get_mssql">
+      <ownedParameter xmi:id="_miy4gKv4EeaA-LY5-9BmyA" name="filtered">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_zTGiQKv4EeaA-LY5-9BmyA" name="get_fwEvents">
+      <ownedParameter xmi:id="_1erpAKv4EeaA-LY5-9BmyA" name="filtered">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_6M_yQKv4EeaA-LY5-9BmyA" name="get_fwTraffic">
+      <ownedParameter xmi:id="_8vs_kKv4EeaA-LY5-9BmyA" name="filtered">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="__esVYKv4EeaA-LY5-9BmyA" name="set_filtered_security">
+      <ownedParameter xmi:id="_D7E88KwAEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_KuETsKwAEeaA-LY5-9BmyA" name="set_filtered_mssql">
+      <ownedParameter xmi:id="_TEsncKwAEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_a_BZsKwAEeaA-LY5-9BmyA" name="set_filtered_fwEvents">
+      <ownedParameter xmi:id="_d_VJAKwAEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_g8004KwAEeaA-LY5-9BmyA" name="set_filtered_fwTraffic">
+      <ownedParameter xmi:id="_jhFhYKwAEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_97QFUKv7EeaA-LY5-9BmyA" name="IN_Event">
+    <ownedAttribute xmi:id="_vMZOwKv8EeaA-LY5-9BmyA" name="keyId" visibility="public">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__iX-sKv8EeaA-LY5-9BmyA" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1KKNsKv8EeaA-LY5-9BmyA" value="999999999"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_DF5v0Kv9EeaA-LY5-9BmyA" name="orgLog" visibility="public">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEnum"/>
+      <qualifier xmi:id="_PH9zgKv9EeaA-LY5-9BmyA" name="security"/>
+      <qualifier xmi:id="_TXcEoKv9EeaA-LY5-9BmyA" name="mssql"/>
+      <qualifier xmi:id="_Ut4TIKv9EeaA-LY5-9BmyA" name="fwEvents"/>
+      <qualifier xmi:id="_V8O8oKv9EeaA-LY5-9BmyA" name="fwTraffic"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_aKBywKv9EeaA-LY5-9BmyA" name="eventId" visibility="public">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_l8KHkKv-EeaA-LY5-9BmyA" value="9999"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_j_JdwKv9EeaA-LY5-9BmyA" name="type" visibility="public">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEnum"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_or9LIKv9EeaA-LY5-9BmyA" name="subtype" visibility="public">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEnum"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_zmipYKv9EeaA-LY5-9BmyA" name="timeCreated">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/XMLPrimitiveTypes.library.uml#DateTime"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_AhGbUKv-EeaA-LY5-9BmyA" name="subjectLogonId">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JsaUUKv-EeaA-LY5-9BmyA" name="handleId">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_OSWksKv-EeaA-LY5-9BmyA" name="logonId">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_R4ZeUKv-EeaA-LY5-9BmyA" name="status">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_U0_LQKv-EeaA-LY5-9BmyA" name="subStatus">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_Xu1GMKv-EeaA-LY5-9BmyA" name="targetDomainName">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_ckt3EKv-EeaA-LY5-9BmyA" name="logonType">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nwoV4Kv-EeaA-LY5-9BmyA" value="10"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_rbKG4Kv-EeaA-LY5-9BmyA" name="ipAddress">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_wXRbkKv-EeaA-LY5-9BmyA" name="targetUsername">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_yUsKgKv-EeaA-LY5-9BmyA" name="ref">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_9Jfw4Kv-EeaA-LY5-9BmyA" name="action">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_AVeksKv_EeaA-LY5-9BmyA" name="service">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_CZdOoKv_EeaA-LY5-9BmyA" name="sender">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_E_p00Kv_EeaA-LY5-9BmyA" name="recipient">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_I_9BgKv_EeaA-LY5-9BmyA" name="msg">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_LraiMKv_EeaA-LY5-9BmyA" name="application">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_OeKWoKv_EeaA-LY5-9BmyA" name="srcIntf">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_RtpxcKv_EeaA-LY5-9BmyA" name="srcCountry">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_VThr8Kv_EeaA-LY5-9BmyA" name="srcIp">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_YmkxEKv_EeaA-LY5-9BmyA" name="dstIntf">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_a8ccQKv_EeaA-LY5-9BmyA" name="dstCountry">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_gU-AIKv_EeaA-LY5-9BmyA" name="dstIp">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8SLNsKwGEeaA-LY5-9BmyA" name="level">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_Hh6RAKwREeaA-LY5-9BmyA" name="keywords">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_5JIn4KwAEeaA-LY5-9BmyA" name="IN_Filterer">
+    <ownedAttribute xmi:id="_JkN6QKwBEeaA-LY5-9BmyA" name="db_connector" type="_2kGOYKv3EeaA-LY5-9BmyA"/>
+    <ownedOperation xmi:id="_QozXUKwBEeaA-LY5-9BmyA" name="filterSecurity">
+      <ownedParameter xmi:id="_UjRBwKwBEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_MqG3sKwCEeaA-LY5-9BmyA" name="filterMssql">
+      <ownedParameter xmi:id="_OB2GsKwCEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_Q4oGkKwCEeaA-LY5-9BmyA" name="filterFwEvents">
+      <ownedParameter xmi:id="_SZ8vYKwCEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_U0Q1sKwCEeaA-LY5-9BmyA" name="filterFwTraffic">
+      <ownedParameter xmi:id="_WThpAKwCEeaA-LY5-9BmyA" name="eventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_bI3nUKwCEeaA-LY5-9BmyA" name="filterAll">
+      <ownedParameter xmi:id="_cLEEIKwCEeaA-LY5-9BmyA" name="securityList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_frI4oKwCEeaA-LY5-9BmyA" name="mssqlList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_itX6kKwCEeaA-LY5-9BmyA" name="fwEventList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_lJohoKwCEeaA-LY5-9BmyA" name="fwTrafficList">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EEList"/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+</uml:Model>
