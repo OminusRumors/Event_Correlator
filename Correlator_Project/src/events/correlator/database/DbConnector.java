@@ -1,7 +1,13 @@
 package events.correlator.database;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import events.correlator.resources.Event.Event;
+import events.correlator.resources.Event.FwEvent;
+import events.correlator.resources.Event.MsEvent;
 public class DbConnector {
 	static Connection con;
 
@@ -29,17 +35,18 @@ public class DbConnector {
 		}
 	}
 
-	public ResultSet getSecurityLog(boolean filtered, Date startDate, Date endDate) {
+	public List<Event> getSecurityLog(boolean filtered, Date startDate, Date endDate) {
 		try {
 			Statement stm = con.createStatement();
 			ResultSet raw_log = null;
+			List<Event> eventList = new ArrayList<Event>();
 			//List<Event> eventList = new ArrayList<Event>();
 			if (filtered) {
 				raw_log = stm.executeQuery(queryFsecurity + datesToSting(startDate, endDate));
 			} else if (!filtered) {
 				raw_log = stm.executeQuery(querySecurity + datesToSting(startDate, endDate));
 			}
-			/*while (raw_log.next()) {
+			while (raw_log.next()) {
 				Event ms_event = new MsEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
 						raw_log.getDate("created"), raw_log.getInt("eventId"), raw_log.getString("keywords"),
 						raw_log.getString("subjectLogonId"), raw_log.getString("handleId"),
@@ -47,25 +54,89 @@ public class DbConnector {
 						raw_log.getInt("logonType"), raw_log.getString("targetUsername"),
 						raw_log.getString("targetDomainName"), raw_log.getString("ipAddress"));
 				eventList.add(ms_event);
-			}*/
-			return raw_log;
+			}
+			return eventList;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return null;
 	}
 	
-	public ResultSet getMssqlLog(boolean filtered, Date startDate, Date endDate){
+	public List<Event> getMssqlLog(boolean filtered, Date startDate, Date endDate){
 		try{
 			Statement stm = con.createStatement();
 			ResultSet raw_log=null;
+			List<Event> eventList=new ArrayList<Event>();
 			
 			if (filtered) {
 				raw_log = stm.executeQuery(queryFmssql + datesToSting(startDate, endDate));
 			} else if (!filtered) {
 				raw_log = stm.executeQuery(querySecurity + datesToSting(startDate, endDate));
 			}
-			return raw_log;
+			while (raw_log.next()) {
+				Event ms_event = new MsEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+						raw_log.getDate("created"), raw_log.getInt("eventId"), raw_log.getString("keywords"),
+						raw_log.getString("subjectLogonId"), raw_log.getString("handleId"),
+						raw_log.getString("logonId"), raw_log.getString("status"), raw_log.getString("substatus"),
+						raw_log.getInt("logonType"), raw_log.getString("targetUsername"),
+						raw_log.getString("targetDomainName"), raw_log.getString("ipAddress"));
+				eventList.add(ms_event);
+			}
+			return eventList;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public List<Event> getFwEventLog(boolean filtered, Date startDate, Date endDate){
+		try{
+			Statement stm = con.createStatement();
+			ResultSet raw_log=null;
+			List<Event> eventList=new ArrayList<Event>();
+			
+			if (filtered) {
+				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
+			} else if (!filtered) {
+				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
+			}
+			while (raw_log.next()) {
+				Event fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+						raw_log.getDate("created"), raw_log.getString("type"), raw_log.getString("subtype"),raw_log.getString("level"),
+						raw_log.getString("action"), raw_log.getString("dstip"), raw_log.getString("dstcountry"),raw_log.getString("dstintf"),
+						raw_log.getString("srcip"),raw_log.getString("srccountry"),raw_log.getString("srcintf"), raw_log.getString("app"),
+						raw_log.getString("msg"), raw_log.getString("recepient"),raw_log.getString("sender"), raw_log.getString("service"),
+						raw_log.getString("ref"));
+				eventList.add(fw_event);
+			}
+			return eventList;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public List<Event> getFwTrafficLog(boolean filtered, Date startDate, Date endDate){
+		try{
+			Statement stm = con.createStatement();
+			ResultSet raw_log=null;
+			List<Event> eventList=new ArrayList<Event>();
+			
+			if (filtered) {
+				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
+			} else if (!filtered) {
+				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
+			}
+			while (raw_log.next()) {
+				Event fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+						raw_log.getDate("created"), raw_log.getString("type"), raw_log.getString("subtype"),raw_log.getString("level"),
+						raw_log.getString("action"), raw_log.getString("dstip"), raw_log.getString("dstcountry"),raw_log.getString("dstintf"),
+						raw_log.getString("srcip"),raw_log.getString("srccountry"),raw_log.getString("srcintf"), raw_log.getString("app"),
+						raw_log.getString("msg"), raw_log.getString("recepient"),raw_log.getString("sender"), raw_log.getString("service"),
+						raw_log.getString("ref"));
+				eventList.add(fw_event);
+			}
+			return eventList;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
