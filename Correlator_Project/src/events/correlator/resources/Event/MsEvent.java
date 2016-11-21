@@ -33,7 +33,7 @@ public class MsEvent extends Event{
 		this.ipAddress = ipAddress;
 	}
 
-	public MsEvent(int keyId, String sourceLog, Calendar created, int eventId, String keywords) {
+	public MsEvent(int keyId, String sourceLog, Date created, int eventId, String keywords) {
 		super(keyId, sourceLog, created);
 		this.eventId = eventId;
 		this.keywords = keywords;

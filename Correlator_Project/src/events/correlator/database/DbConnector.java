@@ -4,15 +4,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import events.correlator.resources.Event.Event;
 import events.correlator.resources.Event.FwEvent;
 import events.correlator.resources.Event.MsEvent;
-public class DbConnector {
+
+public final class DbConnector {
 	static Connection con;
 
-	final static String queryFsecurity = "SELECT * FROM filtered_security_mssql WHERE sourceLog = 'security' AND";
-	final static String queryFmssql = "SELECT * FROM filtered_security_mssql WHERE sourceLog = 'mssql' AND";
+	final static String queryFsecurity = "SELECT * FROM filtered_ms WHERE sourceLog = 'security' AND";
+	final static String queryFmssql = "SELECT * FROM filtered_ms WHERE sourceLog = 'mssql' AND";
 	final static String queryFfwEvents = "SELECT * FROM filtered_fw WHERE sourceLog = 'fwEvents' AND";
 	final static String querFfwTraffic = "SELECT * FROM filtered_fw WHERE sourceLog = 'fwTraffic' AND";
 
@@ -34,12 +33,84 @@ public class DbConnector {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public boolean setMsFiltered(MsEvent event){
+		try {
+			con.setAutoCommit(false);
+			String sql="INSERT INTO filtered_ms VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement prstm=con.prepareStatement(sql);
+			Date utilDate=event.getCreated();
+			java.sql.Date created=new java.sql.Date(utilDate.getTime());
+			prstm.setString(1, event.getSourceLog());
+			prstm.setInt(2, event.getEventId());
+			prstm.setString(3, event.getKeywords());
+			prstm.setDate(4, created);
+			prstm.setString(5, event.getSubjectLogonId());
+			prstm.setString(6, event.getHandleId());
+			prstm.setString(7, event.getLogonId());
+			prstm.setString(8, event.getStatus());
+			prstm.setString(9, event.getSubstatus());
+			prstm.setInt(10, event.getLogonType());
+			prstm.setString(11, event.getTargetDomainName());
+			prstm.setString(12, event.getTargetUsername());
+			prstm.setString(13, event.getIpAddress());
+			prstm.setString(14, event.getApp());
+			prstm.executeUpdate();
+			con.commit();
+			return true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+	}
+	
+	public boolean setFwFiltered(FwEvent event){
+		try {
+			con.setAutoCommit(false);
+			String sql="INSERT INTO filtered_fw VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement prstm=con.prepareStatement(sql);
+			Date utilDate=event.getCreated();
+			java.sql.Date created=new java.sql.Date(utilDate.getTime());
+			prstm.setInt(0, event.getKeyId());
+			prstm.setString(1, event.getSourceLog());
+			prstm.setDate(2, created);
+			prstm.setString(3, event.getType());
+			prstm.setString(4, event.getSubtype());
+			prstm.setString(5, event.getLevel());
+			prstm.setString(6, event.getAction());
+			prstm.setString(7, event.getDstIp());
+			prstm.setString(8, event.getDstCountry());
+			prstm.setString(9, event.getDstIntf());
+			prstm.setString(10, event.getSrcIp());
+			prstm.setString(11, event.getSrcCountry());
+			prstm.setString(12, event.getSrcIntf());
+			prstm.setString(13, event.getApp());
+			prstm.setString(14,event.getMsg());
+			prstm.setString(15, event.getRecepient());
+			prstm.setString(16,event.getSender());
+			prstm.setString(17, event.getService());
+			prstm.executeUpdate();
+			con.commit();
+			return true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+	}
 
-	public List<Event> getSecurityLog(boolean filtered, Date startDate, Date endDate) {
+	public List<MsEvent> getSecurityLog(boolean filtered, Date startDate, Date endDate) {
 		try {
 			Statement stm = con.createStatement();
 			ResultSet raw_log = null;
-			List<Event> eventList = new ArrayList<Event>();
+			List<MsEvent> eventList = new ArrayList<MsEvent>();
 			//List<Event> eventList = new ArrayList<Event>();
 			if (filtered) {
 				raw_log = stm.executeQuery(queryFsecurity + datesToSting(startDate, endDate));
@@ -47,7 +118,7 @@ public class DbConnector {
 				raw_log = stm.executeQuery(querySecurity + datesToSting(startDate, endDate));
 			}
 			while (raw_log.next()) {
-				Event ms_event = new MsEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+				MsEvent ms_event = new MsEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
 						raw_log.getDate("created"), raw_log.getInt("eventId"), raw_log.getString("keywords"),
 						raw_log.getString("subjectLogonId"), raw_log.getString("handleId"),
 						raw_log.getString("logonId"), raw_log.getString("status"), raw_log.getString("substatus"),
@@ -62,11 +133,11 @@ public class DbConnector {
 		return null;
 	}
 	
-	public List<Event> getMssqlLog(boolean filtered, Date startDate, Date endDate){
+	public List<MsEvent> getMssqlLog(boolean filtered, Date startDate, Date endDate){
 		try{
 			Statement stm = con.createStatement();
 			ResultSet raw_log=null;
-			List<Event> eventList=new ArrayList<Event>();
+			List<MsEvent> eventList=new ArrayList<MsEvent>();
 			
 			if (filtered) {
 				raw_log = stm.executeQuery(queryFmssql + datesToSting(startDate, endDate));
@@ -74,7 +145,7 @@ public class DbConnector {
 				raw_log = stm.executeQuery(querySecurity + datesToSting(startDate, endDate));
 			}
 			while (raw_log.next()) {
-				Event ms_event = new MsEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+				MsEvent ms_event = new MsEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
 						raw_log.getDate("created"), raw_log.getInt("eventId"), raw_log.getString("keywords"),
 						raw_log.getString("subjectLogonId"), raw_log.getString("handleId"),
 						raw_log.getString("logonId"), raw_log.getString("status"), raw_log.getString("substatus"),
@@ -89,11 +160,11 @@ public class DbConnector {
 		return null;
 	}
 	
-	public List<Event> getFwEventLog(boolean filtered, Date startDate, Date endDate){
+	public List<FwEvent> getFwEventLog(boolean filtered, Date startDate, Date endDate){
 		try{
 			Statement stm = con.createStatement();
 			ResultSet raw_log=null;
-			List<Event> eventList=new ArrayList<Event>();
+			List<FwEvent> eventList=new ArrayList<FwEvent>();
 			
 			if (filtered) {
 				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
@@ -101,7 +172,7 @@ public class DbConnector {
 				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
 			}
 			while (raw_log.next()) {
-				Event fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+				FwEvent fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
 						raw_log.getDate("created"), raw_log.getString("type"), raw_log.getString("subtype"),raw_log.getString("level"),
 						raw_log.getString("action"), raw_log.getString("dstip"), raw_log.getString("dstcountry"),raw_log.getString("dstintf"),
 						raw_log.getString("srcip"),raw_log.getString("srccountry"),raw_log.getString("srcintf"), raw_log.getString("app"),
@@ -116,11 +187,11 @@ public class DbConnector {
 		return null;
 	}
 	
-	public List<Event> getFwTrafficLog(boolean filtered, Date startDate, Date endDate){
+	public List<FwEvent> getFwTrafficLog(boolean filtered, Date startDate, Date endDate){
 		try{
 			Statement stm = con.createStatement();
 			ResultSet raw_log=null;
-			List<Event> eventList=new ArrayList<Event>();
+			List<FwEvent> eventList=new ArrayList<FwEvent>();
 			
 			if (filtered) {
 				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
@@ -128,7 +199,7 @@ public class DbConnector {
 				raw_log = stm.executeQuery(queryFfwEvents + datesToSting(startDate, endDate));
 			}
 			while (raw_log.next()) {
-				Event fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+				FwEvent fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
 						raw_log.getDate("created"), raw_log.getString("type"), raw_log.getString("subtype"),raw_log.getString("level"),
 						raw_log.getString("action"), raw_log.getString("dstip"), raw_log.getString("dstcountry"),raw_log.getString("dstintf"),
 						raw_log.getString("srcip"),raw_log.getString("srccountry"),raw_log.getString("srcintf"), raw_log.getString("app"),

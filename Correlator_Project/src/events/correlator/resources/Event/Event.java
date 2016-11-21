@@ -6,6 +6,7 @@ public abstract class Event {
 	private int keyId;
 	private String sourceLog;
 	private Date created;
+	private String app;
 	
 	public Event(int keyId, String sourceLog, Date created) {
 		super();
@@ -14,6 +15,14 @@ public abstract class Event {
 		this.created = created;
 	}
 	
+	public Event(int keyId, String sourceLog, Date created, String app) {
+		super();
+		this.keyId = keyId;
+		this.sourceLog = sourceLog;
+		this.created = created;
+		this.app = app;
+	}
+
 	public int getKeyId() {
 		return keyId;
 	}
@@ -24,6 +33,14 @@ public abstract class Event {
 		return created;
 	}
 	
+	public String getApp() {
+		return app;
+	}
+
+	public void setApp(String app) {
+		this.app = app;
+	}
+
 	@Override
 	public String toString() {
 		return "Event [sourceLog=" + sourceLog + ", created=" + created + "]";
