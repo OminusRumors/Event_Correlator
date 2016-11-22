@@ -45,16 +45,8 @@ public class MsRuler {
 	}
 
 	public void checkId4625(Date start, Date end) {
-		List<MsEvent> eventList = dbc.getMsByEventId(4625, true, start, end); // get
-																				// all
-																				// events
-																				// with
-																				// id
-																				// 4625
-		List<MsEvent> newList = new ArrayList<MsEvent>(); // new List containing
-															// events for +-2
-															// seconds of the
-															// current event
+		List<MsEvent> eventList = dbc.getMsByEventId(4625, true, start, end); // get all events with id 4625
+		List<MsEvent> newList = new ArrayList<MsEvent>(); // new List containing events for +-2  seconds of the  current event
 
 		for (MsEvent e : eventList) {
 			Calendar[] minMax = this.dateToCalRange(e.getCreated(), 2);
