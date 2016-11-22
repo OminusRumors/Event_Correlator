@@ -7,12 +7,24 @@ public final class Helper {
 
 	private final static Map<Integer, String> LogonTypes = new HashMap<Integer, String>();
 	private final static Map<String, String> Status = new HashMap<String, String>();
-	private final static Map<Integer, String> Fw_levels = new HashMap<Integer, String>();
+	private final static Map<String, Integer> Fw_levels = new HashMap<String, Integer>();
 
 	public Helper() {
 		populateLogonTypes();
 		populateStatus();
 		populateFw_levels();
+	}
+
+	public static Map<Integer, String> getLogontypes() {
+		return LogonTypes;
+	}
+
+	public static Map<String, String> getStatus() {
+		return Status;
+	}
+
+	public static Map<String, Integer> getFwLevels() {
+		return Fw_levels;
 	}
 
 	private final static void populateLogonTypes() {
@@ -89,12 +101,12 @@ public final class Helper {
 	}
 	
 	private static final void populateFw_levels(){
-		Fw_levels.put(0, "Emergency");
-		Fw_levels.put(1, "Alert");
-		Fw_levels.put(2, "Critical");
-		Fw_levels.put(3, "Error");
-		Fw_levels.put(4, "Warning");
-		Fw_levels.put(5, "Notification");
-		Fw_levels.put(6, "Information");
+		Fw_levels.put("Emergency", 0);
+		Fw_levels.put("Alert", 1);
+		Fw_levels.put("Critical", 2);
+		Fw_levels.put("Error", 3);
+		Fw_levels.put("Warning", 4);
+		Fw_levels.put("Notification", 5);
+		Fw_levels.put("Information", 6);
 	}
 }

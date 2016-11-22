@@ -33,6 +33,37 @@ public final class DbConnector {
 		}
 	}
 
+	public List<FwEvent> getFwByType(String type, Date start, Date end) {
+		Statement stm;
+		try {
+			stm = con.createStatement();
+			ResultSet raw_log = null;
+			List<FwEvent> eventList = new ArrayList<FwEvent>();
+			String sql;
+			if (type == "Traffic") {
+				sql = "SELECT * FROM filtered_fw WHERE lower(type)='traffic' AND" + datesToSting(start, end);
+			} else {
+				sql = "SELECT * FROM filtered_fw WHERE lower(subtype)=" + type + " AND" + datesToSting(start, end);
+			}
+			raw_log=stm.executeQuery(sql);
+			while (raw_log.next()) {
+				FwEvent fw_event = new FwEvent(raw_log.getInt("keyId"), raw_log.getString("sourceLog"),
+						raw_log.getDate("created"), raw_log.getString("type"), raw_log.getString("subtype"),
+						raw_log.getString("level"), raw_log.getString("action"), raw_log.getString("dstip"),
+						raw_log.getString("dstcountry"), raw_log.getString("dstintf"), raw_log.getString("srcip"),
+						raw_log.getString("srccountry"), raw_log.getString("srcintf"), raw_log.getString("app"),
+						raw_log.getString("msg"), raw_log.getString("recepient"), raw_log.getString("sender"),
+						raw_log.getString("service"), raw_log.getString("ref"));
+				eventList.add(fw_event);
+			}
+			return eventList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
 	public List<MsEvent> getMsByEventId(int eventId, boolean filtered, Date start, Date end) {
 		Statement stm;
 		try {
@@ -40,14 +71,15 @@ public final class DbConnector {
 			ResultSet raw = null;
 			List<MsEvent> eventList = new ArrayList<MsEvent>();
 			String sql;
-			
-			if (filtered){
-				sql = "SELECT * FROM filtered_ms WHERE eventId=" + eventId + this.datesToSting(start, end) + " ORDER BY created;";
+
+			if (filtered) {
+				sql = "SELECT * FROM filtered_ms WHERE eventId=" + eventId + this.datesToSting(start, end)
+						+ " ORDER BY created;";
+			} else {
+				sql = "SELECT * FROM security_table WHERE eventId=" + eventId + this.datesToSting(start, end)
+						+ " ORDER BY created;";
 			}
-			else{
-				sql = "SELECT * FROM security_table WHERE eventId=" + eventId + this.datesToSting(start, end) + " ORDER BY created;";
-			}
-			
+
 			raw = stm.executeQuery(sql);
 			while (raw.next()) {
 				MsEvent ms_event = new MsEvent(raw.getInt("keyId"), raw.getString("sourceLog"), raw.getDate("created"),
