@@ -45,7 +45,7 @@ public class MsRuler {
 	}
 
 	public void checkId4625(Date start, Date end) {
-		List<MsEvent> eventList = dbc.getMsFilteredByEventId(4625, start, end); // get
+		List<MsEvent> eventList = dbc.getMsByEventId(4625, true, start, end); // get
 																				// all
 																				// events
 																				// with
@@ -59,8 +59,7 @@ public class MsRuler {
 		for (MsEvent e : eventList) {
 			Calendar[] minMax = this.dateToCalRange(e.getCreated(), 2);
 
-			innerloop: 
-				for (int i = eventList.indexOf(e); i < eventList.size(); i++) {
+			innerloop: for (int i = eventList.indexOf(e); i < eventList.size(); i++) {
 				if (eventList.get(i).getCreated().compareTo(minMax[0].getTime()) > 0
 						&& eventList.get(i).getCreated().compareTo(minMax[2].getTime()) < 0) {
 					newList.add(eventList.get(i));
@@ -78,7 +77,7 @@ public class MsRuler {
 
 	public void checkId4768(Date start, Date end) {
 
-		List<MsEvent> list4768 = dbc.getMsFilteredByEventId(4768, start, end);
+		List<MsEvent> list4768 = dbc.getMsByEventId(4768, true, start, end);
 		List<MsEvent> newList4768 = new ArrayList<MsEvent>();
 		Map<String, String> username_ip = new HashMap<String, String>();
 
@@ -101,13 +100,13 @@ public class MsRuler {
 	}
 
 	public void checkId4769(Date start, Date end) {
-		List<MsEvent> orgEventList = dbc.getMsFilteredByEventId(4769, start, end);
-		List<MsEvent> filtList=new ArrayList<MsEvent>();
-		List<MsEvent> finalList =new ArrayList<MsEvent>();
+		List<MsEvent> orgEventList = dbc.getMsByEventId(4769, true, start, end);
+		List<MsEvent> filtList = new ArrayList<MsEvent>();
+		List<MsEvent> finalList = new ArrayList<MsEvent>();
 		Calendar[] slwin;
-		
-		for (MsEvent e : orgEventList){
-			if (e.getKeywords()=="0x801.*"){
+
+		for (MsEvent e : orgEventList) {
+			if (e.getKeywords() == "0x801.*") {
 				filtList.add(e);
 			}
 		}
@@ -115,27 +114,57 @@ public class MsRuler {
 		for (MsEvent e : filtList) {
 			slwin = this.dateToCalRange(e.getCreated(), 3);
 
-			if (e.getCreated().compareTo(slwin[0].getTime())>0 && e.getCreated().compareTo(slwin[2].getTime())<0){
+			if (e.getCreated().compareTo(slwin[0].getTime()) > 0 && e.getCreated().compareTo(slwin[2].getTime()) < 0) {
 				finalList.add(e);
 			}
 		}
-		
-		if (finalList.size()>4){
+
+		if (finalList.size() > 4) {
 			// TODO: implement actions
 		}
 	}
-	
-	public void checkId4776(Date start, Date end){
-		List<MsEvent> orgList =dbc.getMsFilteredByEventId(4776, start, end);
-		List<MsEvent> filtList=new ArrayList<MsEvent>();
-		
-		for (MsEvent e : orgList){
-			if (e.getStatus()!="0x0"){
+
+	public void checkId4776(Date start, Date end) {
+		List<MsEvent> orgList = dbc.getMsByEventId(4776, true, start, end);
+		List<MsEvent> filtList = new ArrayList<MsEvent>();
+
+		for (MsEvent e : orgList) {
+			if (e.getStatus() != "0x0") {
 				filtList.add(e);
 			}
 		}
-		
+
 		// TODO: implement further actions
 	}
 
+	public void checkId5136(Date start, Date end){
+		List<MsEvent> orgList =dbc.getMsByEventId(5136, true, start, end);
+		List<MsEvent> list4662=dbc.getMsByEventId(4662, false, start, end);
+		
+		for (MsEvent e5136 : orgList){
+			for (MsEvent e4662 :list4662){
+				if (e5136.getSubjectLogonId()==e4662.getSubjectLogonId()){
+					if (e5136.getCreated().compareTo(e4662.getCreated())<0){
+						// TODO: this is bad, implement actions
+					}
+				}
+			}
+		}
+	}
+	
+	public void checkId5158(Date start, Date end){
+		// TODO: implementation
+	}
+	
+	public void checkId6272(Date start, Date end){
+		// TODO: implementation
+	}
+	
+	public void checkId6273(Date start, Date end){
+		List<MsEvent> orgList=dbc.getMsByEventId(6273, false, start, end);
+		
+		if (!orgList.isEmpty()){
+			// TODO: implement actions
+		}
+	}
 }

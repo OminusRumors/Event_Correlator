@@ -33,13 +33,21 @@ public final class DbConnector {
 		}
 	}
 
-	public List<MsEvent> getMsFilteredByEventId(int eventId, Date start, Date end) {
+	public List<MsEvent> getMsByEventId(int eventId, boolean filtered, Date start, Date end) {
 		Statement stm;
 		try {
 			stm = con.createStatement();
 			ResultSet raw = null;
 			List<MsEvent> eventList = new ArrayList<MsEvent>();
-			String sql = "SELECT * FROM filtered_ms WHERE eventId=" + eventId + this.datesToSting(start, end) + " ORDER BY created;";
+			String sql;
+			
+			if (filtered){
+				sql = "SELECT * FROM filtered_ms WHERE eventId=" + eventId + this.datesToSting(start, end) + " ORDER BY created;";
+			}
+			else{
+				sql = "SELECT * FROM security_table WHERE eventId=" + eventId + this.datesToSting(start, end) + " ORDER BY created;";
+			}
+			
 			raw = stm.executeQuery(sql);
 			while (raw.next()) {
 				MsEvent ms_event = new MsEvent(raw.getInt("keyId"), raw.getString("sourceLog"), raw.getDate("created"),
