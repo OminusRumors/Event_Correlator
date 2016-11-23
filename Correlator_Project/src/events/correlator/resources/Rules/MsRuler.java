@@ -1,5 +1,6 @@
 package events.correlator.resources.Rules;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import events.correlator.database.DbConnector;
 import events.correlator.resources.Event.MsEvent;
+import events.correlator.utilities.Helper;
 
 public class MsRuler {
 	private DbConnector dbc;
@@ -21,6 +23,11 @@ public class MsRuler {
 
 	}
 
+	/** Gets the date of the current event and returns a calendar array containing the min and max time according to window.
+	 * @param current Current event time.
+	 * @param window The time window in seconds.
+	 * @return A calendar array.
+	 */
 	private Calendar[] dateToCalRange(Date current, int window) {
 		Calendar[] retArray = new Calendar[3];
 
@@ -46,23 +53,51 @@ public class MsRuler {
 
 	public void checkId4625(Date start, Date end) {
 		List<MsEvent> eventList = dbc.getMsByEventId(4625, true, start, end); // get all events with id 4625
-		List<MsEvent> newList = new ArrayList<MsEvent>(); // new List containing events for +-2  seconds of the  current event
-
+		List<MsEvent> eventUserList = new ArrayList<MsEvent>();
+		List<MsEvent> finalList=new ArrayList<MsEvent>();
+		List<String> targetUserList=new ArrayList<String>();
+		
+		//loop for creating a distinct username list
 		for (MsEvent e : eventList) {
-			Calendar[] minMax = this.dateToCalRange(e.getCreated(), 2);
-
-			innerloop: for (int i = eventList.indexOf(e); i < eventList.size(); i++) {
-				if (eventList.get(i).getCreated().compareTo(minMax[0].getTime()) > 0
-						&& eventList.get(i).getCreated().compareTo(minMax[2].getTime()) < 0) {
-					newList.add(eventList.get(i));
-				}
-				if (eventList.get(i).getCreated().compareTo(minMax[2].getTime()) > 0) {
-					break innerloop;
+			if (!targetUserList.contains(e.getTargetUsername())){
+				targetUserList.add(e.getTargetUsername());
+			}
+		}
+		
+		for (String user:targetUserList){
+			eventUserList.clear();
+			
+			//loop for creating a list with all the events from the specific user
+			for (MsEvent e:eventList){
+				if (e.getTargetUsername()==user){
+					eventUserList.add(e);
+					eventList.remove(e);
 				}
 			}
-
-			if (newList.size() >= 5) {
-				// TODO: implement Alert and Scan
+			for (MsEvent e:eventUserList){
+				Calendar[] cal=dateToCalRange(e.getCreated(), 2);
+				List<String> ipList=new ArrayList<String>();
+				
+				//loop for getting all the events of the specific user in a defined time range and save them to "finalList"
+				for (MsEvent ev:eventUserList){
+					if (ev.getCreated().compareTo(cal[0].getTime())>0 && ev.getCreated().compareTo(cal[2].getTime())<0){
+						finalList.add(ev);
+						if (!ipList.contains(ev.getIpAddress())){
+							ipList.add(e.getIpAddress());
+						}
+					}
+				}
+				if (finalList.size()>=6){
+					//alert, scan
+					Map<String,String> reportData=new HashMap<String, String>();
+					reportData.put("count", Integer.toString(finalList.size()));
+					String msg=String.format("User %s failed %d times to logon from ip: %s", e.getTargetUsername(),
+							Integer.toString(finalList.size()), ipList.toString());
+					reportData.put("message", msg);
+					reportData.put("eventId", "4625");
+					reportData.put("eventDesc", "Logon failure");
+					reportData.put("reason", "Username not found");//Helper.getStatus().get(e.getStatus()));
+				}
 			}
 		}
 	}
