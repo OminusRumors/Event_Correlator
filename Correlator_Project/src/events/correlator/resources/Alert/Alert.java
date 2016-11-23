@@ -34,8 +34,8 @@ public class Alert {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("ominusrumors@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, recipientsArray);
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler," + "\n\n No spam to my email, please!");
+			message.setSubject(msg.get("title"));
+			message.setText(msg.get(message));
 
 			Transport.send(message);
 

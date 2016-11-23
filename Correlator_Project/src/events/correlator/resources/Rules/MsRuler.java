@@ -9,14 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 import events.correlator.database.DbConnector;
+import events.correlator.resources.Alert.Alert;
+import events.correlator.resources.Event.Event;
 import events.correlator.resources.Event.MsEvent;
 import events.correlator.utilities.Helper;
 
 public class MsRuler {
 	private DbConnector dbc;
+	private Alert alert;
 
 	public MsRuler(DbConnector dbc) {
 		this.dbc = dbc;
+		this.alert=new Alert();
 	}
 
 	public MsRuler() {
@@ -97,7 +101,9 @@ public class MsRuler {
 					reportData.put("message", msg);
 					reportData.put("eventId", "4625");
 					reportData.put("eventDesc", "Logon failure");
+					// TODO: find a proper matrix for status & substatus
 					reportData.put("reason", "Username not found");//Helper.getStatus().get(e.getStatus()));
+					alert.sendEmail({"georgevassiliadis@hotmail.com", "georgios.vasileiadis@diagnostiekvooru.nl"}, reportData);
 				}
 			}
 		}
@@ -109,8 +115,7 @@ public class MsRuler {
 		List<MsEvent> newList4768 = new ArrayList<MsEvent>();
 		Map<String, String> username_ip = new HashMap<String, String>();
 
-		// create new list with failed attempts of kerberos auth ticket events
-		// (4768)
+		// create new list with failed attempts of kerberos auth ticket events(4768)
 		for (MsEvent e : list4768) {
 			if (e.getKeywords() == "0x8010.*") {
 				newList4768.add(e);
