@@ -3,13 +3,14 @@ package events.correlator.resources.Alert;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+import java.util.Map;
 import java.util.Properties;
 
 import javax.activation.*;
 
 public class Alert {
 
-	public static void main(String[] args) {
+	public static void sendEmail(String[] recipients, Map<String, String> msg) {
 		final String username = "ominusrumors@gmail.com";
 		final String password = "wolfenstein";
 
@@ -26,10 +27,13 @@ public class Alert {
 		});
 
 		try {
-
+			Address[] recipientsArray={};
+			for (int i=0;i<recipients.length;i++){
+				recipientsArray[i]= new InternetAddress(recipients[i]);
+			}
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("ominusrumors@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("georgevassiliadis@hotmail.com"));
+			message.setRecipients(Message.RecipientType.TO, recipientsArray);
 			message.setSubject("Testing Subject");
 			message.setText("Dear Mail Crawler," + "\n\n No spam to my email, please!");
 

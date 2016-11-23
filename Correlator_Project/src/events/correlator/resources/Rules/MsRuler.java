@@ -93,6 +93,7 @@ public class MsRuler {
 					reportData.put("count", Integer.toString(finalList.size()));
 					String msg=String.format("User %s failed %d times to logon from ip: %s", e.getTargetUsername(),
 							Integer.toString(finalList.size()), ipList.toString());
+					reportData.put("title", "Logon failure threshold reached");
 					reportData.put("message", msg);
 					reportData.put("eventId", "4625");
 					reportData.put("eventDesc", "Logon failure");

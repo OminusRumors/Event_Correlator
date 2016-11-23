@@ -43,20 +43,20 @@ public class FwEvent extends Event{
 	private String service;
 	private String ref;
 	
-	public FwEvent(int keyId, String sourceLog, Calendar created, String type, String subtype) {
+	public FwEvent(int keyId, String sourceLog, Date created, String type, String subtype) {
 		super(keyId, sourceLog, created);
 		this.type = type;
 		this.subtype = subtype;
 	}
 
-	public FwEvent(int keyId, String sourceLog, Calendar created, String type, String subtype, String action) {
+	public FwEvent(int keyId, String sourceLog, Date created, String type, String subtype, String action) {
 		super(keyId, sourceLog, created);
 		this.type = type;
 		this.subtype = subtype;
 		this.action = action;
 	}
 
-	public FwEvent(int keyId, String sourceLog, Calendar created, String type, String subtype, String level,
+	public FwEvent(int keyId, String sourceLog, Date created, String type, String subtype, String level,
 			String action) {
 		super(keyId, sourceLog, created);
 		this.type = type;
